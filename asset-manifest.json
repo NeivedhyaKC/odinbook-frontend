@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/odinbook-frontend/static/css/main.41555d2d.css",
-    "main.js": "/odinbook-frontend/static/js/main.1799805c.js",
-    "static/js/787.08cad3e4.chunk.js": "/odinbook-frontend/static/js/787.08cad3e4.chunk.js",
-    "static/media/backgroundImage.png": "/odinbook-frontend/static/media/backgroundImage.606f59df30bd91a870f4.png",
-    "index.html": "/odinbook-frontend/index.html",
-    "main.41555d2d.css.map": "/odinbook-frontend/static/css/main.41555d2d.css.map",
-    "main.1799805c.js.map": "/odinbook-frontend/static/js/main.1799805c.js.map",
-    "787.08cad3e4.chunk.js.map": "/odinbook-frontend/static/js/787.08cad3e4.chunk.js.map"
+    "main.css": "/static/css/main.41555d2d.css",
+    "main.js": "/static/js/main.217809c5.js",
+    "static/js/787.08cad3e4.chunk.js": "/static/js/787.08cad3e4.chunk.js",
+    "static/media/backgroundImage.png": "/static/media/backgroundImage.606f59df30bd91a870f4.png",
+    "index.html": "/index.html",
+    "main.41555d2d.css.map": "/static/css/main.41555d2d.css.map",
+    "main.217809c5.js.map": "/static/js/main.217809c5.js.map",
+    "787.08cad3e4.chunk.js.map": "/static/js/787.08cad3e4.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.41555d2d.css",
-    "static/js/main.1799805c.js"
+    "static/js/main.217809c5.js"
   ]
 }
