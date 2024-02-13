@@ -25,7 +25,12 @@ const LoginPage = () =>
     let [showSignUpModal,setShowSignUpModal] = useState(false);
     let [loading,setLoading] = useState(false);
     let [loginAsExampleUserText, setLoginAsExampleUserText] = useState("Login as Example User");
-    let [loginText,setLoginText] = useState("Login");
+    let [loginText, setLoginText] = useState("Login");
+    
+    const LoadingStyle = 
+    {
+        opacity: loading ? 0.8 : 1
+    }
     
 
     const handleChange = (prop) => (event) => {
@@ -44,6 +49,10 @@ const LoginPage = () =>
     };
     const handleSubmit = async (event) =>
     {
+        if (!event.target.checkValidity())
+        {
+            return;
+        }
         if(loading)
         {
             return;
@@ -51,7 +60,7 @@ const LoginPage = () =>
         setLoading(true);
         setLoginText("Loading... might take a minute");
         event.preventDefault();
-        const data = {email:email,password:values.password};
+        const data = { email: email, password: values.password };
 
         fetch(`${process.env.REACT_APP_API_URL}/login`,{
             method: 'POST',
@@ -66,7 +75,7 @@ const LoginPage = () =>
         .then(response => response.json())
         .then((responseData) =>
         {
-            setLoading("false");
+            setLoading(false);
             setLoginText("Login");
             if(responseData.user /*response.token*/)
             {
@@ -75,6 +84,7 @@ const LoginPage = () =>
             }
             else
             {
+                if (!responseData.info) return;
                 if(responseData.info.err === -1)
                 {
                     setErrMsg({emailErrMsg:responseData.info.msg,passwordErrMsg:''});
@@ -92,6 +102,7 @@ const LoginPage = () =>
 
     const OnSignInWithGoogleClick = async () =>
     {
+        setLoading(true);
         const newWindow = window.open(`${process.env.REACT_APP_API_URL}/auth/google`,"_blank", "width=500,height=600");
         if(newWindow)
         {
@@ -107,6 +118,7 @@ const LoginPage = () =>
                     const responseData = await response.json();
                     sessionStorage.setItem("user",JSON.stringify(responseData.user));
                     navigate("/home");
+                    setLoading(false);
                 }
             },500);
         }
@@ -120,7 +132,7 @@ const LoginPage = () =>
         }
         setLoading(true);
         setLoginAsExampleUserText("Loading... might take a minute")
-        const data = {email:"ExampleUser@mail.com",password:"ExampleUser@mail.com"};
+        const data = { email: "ExampleUser@mail.com", password: "ExampleUser@mail.com" };
 
         fetch(`${process.env.REACT_APP_API_URL}/login`,{
             method: 'POST',
@@ -159,7 +171,7 @@ const LoginPage = () =>
             </div>
             <div id="loginBox">
                 <p id="login">Login</p>
-                <form id="loginForm" onSubmit={handleSubmit}>
+                <form id="loginForm" onSubmit={handleSubmit} disabled={loading} style={LoadingStyle}>
                     <TextField sx={{ 
                         width: 350,
                         marginTop: 4}} variant="outlined" type="email" 
@@ -167,6 +179,7 @@ const LoginPage = () =>
                         value={values.email} onChange={e => setEmail(e.target.value)}
                         error={errMsg.emailErrMsg.length > 0}
                         helperText={errMsg.emailErrMsg}
+                        disabled={loading} style={LoadingStyle}
                         required/>
 
                     <TextField
@@ -175,7 +188,8 @@ const LoginPage = () =>
                     type={values.showPassword ? "text" : "password"} // <-- This is where the magic happens
                     onChange={handleChange('password')}
                     sx={{width:350}}
-                    required
+                        required
+                        disabled={loading} style={LoadingStyle}
                     error={errMsg.passwordErrMsg.length>0}
                     helperText={errMsg.passwordErrMsg}
                     InputProps={{ // <-- This is where the toggle button is added.
@@ -193,7 +207,8 @@ const LoginPage = () =>
                     }}
                     />
 
-                    <Button type="submit" variant="contained" size="large" sx={{
+                    <Button type="submit" variant="contained" size="large"
+                        disabled={loading} style={LoadingStyle} sx={{
                         width: 350,
                         paddingTop:1.2,
                         paddingBottom:1.5,
@@ -202,7 +217,7 @@ const LoginPage = () =>
                         }}>{loginText}</Button>
                 </form>
                 <div id="signUpContainer">
-                    <Button variant="contained" sx={{
+                    <Button variant="contained" disabled={loading} style={LoadingStyle} sx={{
                         width:350,
                         paddingTop:1.3,
                         paddingBottom:1.5,
@@ -211,9 +226,9 @@ const LoginPage = () =>
                     onClick={() =>setShowSignUpModal(true)}>
                         Sign Up
                     </Button>
-                    <p id="or">or</p>
-                    <GoogleButton onClick={() => OnSignInWithGoogleClick()}/>
-                    <Button variant="contained" sx={{
+                    <p id="or" style={LoadingStyle} >or</p>
+                    <GoogleButton onClick={() => OnSignInWithGoogleClick()} disabled={loading} style={LoadingStyle}/>
+                    <Button variant="contained" disabled={loading} style={LoadingStyle} sx={{
                         width:350,
                         paddingTop:1.3,
                         paddingBottom:1.5,
